@@ -11,8 +11,9 @@ def menu_list(request):
     all_menus = Menu.objects.all()
     menus = []
     for menu in all_menus:
-        if menu.expiration_date >= timezone.now():
-            menus.append(menu)
+        if menu.expiration_date:
+            if menu.expiration_date >= timezone.now():
+                menus.append(menu)
 
     menus = sorted(menus, key=attrgetter('expiration_date'))
     return render(request, 'menu/list_all_current_menus.html', {'menus': menus})
