@@ -7,7 +7,7 @@ from .forms import MenuForm
 def menu_list(request):
     all_menus = Menu.objects.filter(
         expiration_date__gte=timezone.now()
-        )
+        ).prefetch_related('items')
     return render(request, 'menu/list_all_current_menus.html', {'menus': all_menus})
 
 def menu_detail(request, pk):
