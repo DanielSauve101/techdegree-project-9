@@ -1,0 +1,16 @@
+{% extends 'menu/layout.html' %}
+
+{% block content %}
+<h1>{{ item.name }}
+{% if item.chef == user %}
+    <a class="btn btn-outline-secondary" href="{% url 'item_edit' pk=item.pk %}">Edit</a>
+{% endif %}
+</h1>
+<p><strong>Head Chef:</strong> {{ item.chef }}</p>
+<p>{{ item.description }}</p>
+<p><strong>Ingredients: </strong>{{ item.ingredients.all|join:", " }}</p>
+{% if item.standard %}
+    <p><em>This item is available year-round.</em></p>
+{% endif %}
+<p>created on: {{ item.created_date|date:"F j, Y"}}</p>
+{% endblock %}

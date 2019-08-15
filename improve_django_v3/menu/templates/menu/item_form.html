@@ -1,7 +1,7 @@
 {% extends 'menu/layout.html' %}
 
 {% block content %}
-<h1>{{ form.instance.season|default:"Add Menu" }}</h1>
+<h1>{{ form.instance.name|default:"Add Item" }}</h1>
 <form class="menu-form" method="POST" action="">
     {% csrf_token %}
     {{ form.as_p }}

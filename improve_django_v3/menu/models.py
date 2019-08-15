@@ -11,11 +11,12 @@ class Menu(models.Model):
     expiration_date = models.DateTimeField(
             blank=True, null=True)
 
+    class Meta:
+        ordering = ['expiration_date',]
+
     def __str__(self):
         return self.season
 
-    class Meta:
-        ordering = ['expiration_date',]
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
@@ -31,8 +32,12 @@ class Item(models.Model):
         'Ingredient', related_name='ingredients'
         )
 
+    class Meta:
+        ordering = ['name',]
+
     def __str__(self):
         return self.name
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=200)
