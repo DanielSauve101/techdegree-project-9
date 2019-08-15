@@ -15,6 +15,16 @@ class MenuForm(forms.ModelForm):
         ]
         widgets = {'expiration_date': SelectDateWidget}
 
+    def clean(self):
+        cleaned_data = super().clean()
+        season = cleaned_data.get('season')
+        seasons = ['winter', 'spring', 'summer', 'fall']
+
+        if not any(x in season.lower() for x in seasons):
+            raise forms.ValidationError(
+                "Must include a season. 'Winter, Spring, Summer, or Fall.'"
+                )
+
 
 class ItemForm(forms.ModelForm):
 
@@ -27,4 +37,7 @@ class ItemForm(forms.ModelForm):
             'created_date',
             'ingredients'
         ]
-        widgets = {'created_date': SelectDateWidget}
+        widgets = {
+            'created_date': SelectDateWidget,
+            'description': forms.Textarea(attrs={'cols': 40, 'rows': 5})
+            }
