@@ -9,6 +9,7 @@ from .forms import MenuForm, ItemForm
 
 
 def menu_list(request):
+    """View that list all menus that are available."""
     all_menus = Menu.objects.filter(
         expiration_date__gte=timezone.now()
         ).prefetch_related('items')
@@ -16,11 +17,13 @@ def menu_list(request):
 
 
 def menu_detail(request, pk):
+    """View that list the detail of a menu."""
     menu = get_object_or_404(Menu, pk=pk)
     return render(request, 'menu/menu_detail.html', {'menu': menu})
 
 
 def create_new_menu(request):
+    """View that lets a registered user create a new menu."""
     if request.method == "POST":
         form = MenuForm(request.POST)
         if form.is_valid():
@@ -35,6 +38,7 @@ def create_new_menu(request):
 
 
 def edit_menu(request, pk):
+    """View that lets a registered user edit a menu."""
     menu = get_object_or_404(Menu, pk=pk)
     form = MenuForm(instance=menu)
 
@@ -48,6 +52,7 @@ def edit_menu(request, pk):
 
 
 def item_list(request):
+    """View that list all items alphabetically with a limit of 10 per page."""
     all_items = Item.objects.all()
     paginator = Paginator(all_items, 10)
     page = request.GET.get('page')
@@ -64,6 +69,7 @@ def item_list(request):
 
 
 def item_detail(request, pk):
+    """View that list the detailed ingredients of the selected item."""
     try: 
         item = Item.objects.select_related('chef').get(pk=pk)
     except ObjectDoesNotExist:
@@ -72,6 +78,7 @@ def item_detail(request, pk):
 
 
 def create_new_item(request):
+    """View that lets the current user(chef) create new items."""
     if request.method == "POST":
         form = ItemForm(request.POST)
         if form.is_valid():
@@ -86,6 +93,7 @@ def create_new_item(request):
 
 
 def edit_item(request, pk):
+    """View that lets the related chef edit the item."""
     item = get_object_or_404(Item, pk=pk)
     form = ItemForm(instance=item)
 
